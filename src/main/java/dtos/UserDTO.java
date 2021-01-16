@@ -1,21 +1,25 @@
-
 package dtos;
 
+import entities.Booking;
+import entities.Creditcard;
 import entities.User;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO {
 
-    private String userName;
-    private String userPass;
+    public String userName;
+    public String userPass;
+    public String phone;
+    public List<CreditcardDTO> creditCards;
+    public List<BookingDTO> bookings;
 
     public UserDTO() {
     }
-    
-     public UserDTO(User user) {
-       this.userName = user.getUserName();
-       this.userPass = user.getUserPass();
+
+    public UserDTO(User user) {
+        this.userName = user.getUserName();
+        this.userPass = user.getUserPass();
     }
 
     public UserDTO(String userName, String userPass) {
@@ -38,14 +42,13 @@ public class UserDTO {
     public void setUserPass(String userPass) {
         this.userPass = userPass;
     }
-    
-        public List<UserDTO>toDTO(List<User>persons){
-        List<UserDTO>dtoes = new ArrayList();
-            for(User u: persons){
-                dtoes.add(new UserDTO(u));
-            }
-            return dtoes;
+
+    public List<UserDTO> toDTO(List<User> persons) {
+        List<UserDTO> dtoes = new ArrayList();
+        for (User u : persons) {
+            dtoes.add(new UserDTO(u));
+        }
+        return dtoes;
     }
-    
-    
+
 }

@@ -28,13 +28,12 @@ public class FetchFacade {
             return HttpUtils.fetchData(url);
         }
     }
+    
+    
 
     public List<String> fetchParallel() throws InterruptedException, ExecutionException {
-        String[] hostList = {"https://icanhazdadjoke.com",
-            "https://some-random-api.ml/facts/fox",
-            "https://swapi.dev/api/",
-            "https://some-random-api.ml/facts/panda",
-            "https://some-random-api.ml/facts/dog"};
+        String hotelId = "4042";
+        String[] hostList = {"http://exam.cphdat.dk/8000/hotel/all"};
         ExecutorService executor = Executors.newCachedThreadPool();
         List<Future<String>> futureList = new ArrayList();
         List<String> result = new ArrayList();
