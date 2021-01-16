@@ -8,12 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author David
  */
 @Entity
+@NamedQueries({
+@NamedQuery(name = "Booking.deleteAllRows", query = "DELETE from Booking"),
+@NamedQuery(name = "Booking.getAll", query = "SELECT b FROM Booking b")})
 public class Booking implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,7 +34,8 @@ public class Booking implements Serializable {
     @ManyToOne
     private User user;
 
-    public Booking(String startDate, int nights, int nightPrice) {
+    public Booking(Long id, String startDate, int nights, int nightPrice, Hotel hotel) {
+        this.id = id;
         this.startDate = startDate;
         this.nights = nights;
         this.nightPrice = nightPrice;

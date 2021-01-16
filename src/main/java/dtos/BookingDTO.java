@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class BookingDTO {
 
+    private Long id;
     private String startDate;
     private int nights;
     private int nightPrice;
@@ -35,6 +36,14 @@ public class BookingDTO {
 
     public String getStartDate() {
         return startDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setStartDate(String startDate) {

@@ -92,4 +92,25 @@ public class HotelFacade {
         }
         return list;
     }
+    
+    public BookingDTO deleteBooking(Long id) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Booking b = em.find(Booking.class, id);
+        em.remove(b);
+        em.getTransaction().commit();
+        return new BookingDTO(b);
+    }
+    
+    public BookingDTO editBooking(BookingDTO booking) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Booking b = em.find(Booking.class, booking.getId());
+        b.setNightPrice(booking.getNightPrice());
+        b.setNights(booking.getNights());
+        b.setStartDate(booking.getStartDate());
+        b.setName(booking.getName());
+        em.getTransaction().commit();
+        return new BookingDTO(b);
+    }
 }

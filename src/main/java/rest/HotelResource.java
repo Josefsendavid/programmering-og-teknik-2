@@ -21,10 +21,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -79,7 +81,6 @@ public class HotelResource {
 ////        Hotel hotelList = GSON.fromJson(hotelData, Hotel.class);
 //        return GSON.toJson(hotelList);
 //    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all")
@@ -92,7 +93,16 @@ public class HotelResource {
         return result;
     }
 
+    @GET
+    @Path("/bookings/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllBookings(@PathParam("name") String name) {
+        ArrayList<BookingDTO> list = FACADE2.getAllBookings(name);
+        return GSON.toJson(list);
+    }
+
     @POST
+    @Path("/bookings")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public String addBooking(String booking) {
@@ -101,11 +111,23 @@ public class HotelResource {
         return GSON.toJson(bDTO);
     }
 
-    @GET
-    @Path("/bookings/{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getAllBookings(@PathParam("name") String name) {
-        ArrayList<BookingDTO> list = FACADE2.getAllBookings(name);
-        return GSON.toJson(list);
+    @DELETE
+    @RolesAllowed("Admin")
+    @Path("/bookings/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON})
+    public String deleteBooking(@PathParam("id") Long id) {
+        BookingDTO bDeleted = FACADE2.deleteBooking(id);
+        return GSON.toJson(bDeleted);
+    }
+
+    @Path("/bookings/{id}")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_JSON})
+    public String editBooking(@PathParam("id") String booking) {
+        BookingDTO b = GSON.fromJson(booking, BookingDTO.class);
+        FACADE2.editBooking(b);
+        return GSON.toJson(b);
     }
 }
