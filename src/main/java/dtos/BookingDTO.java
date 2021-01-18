@@ -17,6 +17,7 @@ public class BookingDTO {
     private int nights;
     private int nightPrice;
     private String name;
+    private String hotel_id;
 
     public BookingDTO(Booking booking) {
         this.startDate = booking.getStartDate();
@@ -32,6 +33,14 @@ public class BookingDTO {
         this.nights = nights;
         this.nightPrice = nightPrice;
         this.name = name;
+    }
+    
+        public BookingDTO(String startDate, int nights, int nightPrice, String name, String hotel_id) {
+        this.startDate = startDate;
+        this.nights = nights;
+        this.nightPrice = nightPrice;
+        this.name = name;
+        this.name = hotel_id;
     }
 
     public String getStartDate() {

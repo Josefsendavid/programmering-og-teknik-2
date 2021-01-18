@@ -26,6 +26,7 @@ import utils.EMF_Creator;
  *
  * @author David
  */
+@Disabled
 public class HotelResourceTest {
 
     private static final int SERVER_PORT = 7777;

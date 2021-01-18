@@ -62,7 +62,7 @@ public class HotelResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public String getHotelDTO(@PathParam("id") String id) throws IOException {
+    public String getHotelById(@PathParam("id") String id) throws IOException {
         String url = "http://exam.cphdat.dk:8000/hotel/" + id;
         String hotelData = HttpUtils.fetchData(url);
 
@@ -85,14 +85,21 @@ public class HotelResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all")
     public String getHotelsTest() throws IOException, InterruptedException, ExecutionException, TimeoutException {
-        String hotelList = FACADE2.fetchHotelsTest(exec, GSON);
+        String hotelList = FACADE2.fetchHotels(exec, GSON);
 //        String url = "http://exam.cphdat.dk:8000/hotel/all";
 //        String hotelData = HttpUtils.fetchData(url);
 //        Hotel hotelList = GSON.fromJson(hotelData, Hotel.class);
         String result = hotelList;
         return result;
     }
-
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("test")
+    public String test() {
+        return "[]";
+    }
+    
     @GET
     @Path("/bookings/{name}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -101,15 +108,15 @@ public class HotelResource {
         return GSON.toJson(list);
     }
 
-    @POST
-    @Path("/bookings")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String addBooking(String booking) {
-        BookingDTO bDTO = GSON.fromJson(booking, BookingDTO.class);
-        FACADE2.addBooking(bDTO);
-        return GSON.toJson(bDTO);
-    }
+//    @POST
+//    @Path("/bookings")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public String addBooking(String booking, String id) throws IOException {
+//        BookingDTO bDTO = GSON.fromJson(booking, BookingDTO.class);
+//        FACADE2.addBooking(bDTO, id);
+//        return GSON.toJson(bDTO);
+//    }
 
     @DELETE
     @RolesAllowed("Admin")

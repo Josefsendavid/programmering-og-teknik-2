@@ -2,6 +2,11 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="pu" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>entities.Booking</class>
+    <class>entities.Creditcard</class>
+    <class>entities.Hotel</class>
+    <class>entities.Role</class>
+    <class>entities.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <!-- DO NOT remove the line below. It's not set by the  entityUtils.EMF_Creator -->
@@ -16,7 +21,7 @@
       <property name="eclipselink.logging.level.sql" value="INFO"/>
       <property name="eclipselink.logging.parameters" value="true"/>
       <!-- In PRODUCTION the values below, will be overriden by utils.EMF_Creator -->
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/eksamen2"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/eksamen2_test"/>
       <property name="javax.persistence.jdbc.user" value="dev"/>
       <property name="javax.persistence.jdbc.password" value="ax2"/>
     </properties>

@@ -113,5 +113,12 @@ public class Hotel implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+    
+    public void addBooking(Booking booking) {
+        this.bookings.add(booking);
+        if(booking.getHotel()!= this) {
+            booking.setHotel(this);
+        }
+    }
 
 }

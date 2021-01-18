@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,6 +31,7 @@ public class Booking implements Serializable {
     private int nightPrice;
     private String name;
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="hotel_id")
     private Hotel hotel;
     @ManyToOne
     private User user;
@@ -106,5 +108,12 @@ public class Booking implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public void setHotelBooking(Hotel hotel) {
+        this.hotel = hotel;
+        if (!hotel.getBookings().contains(this)) {
+            hotel.getBookings().add(this);
+        }
     }
 }

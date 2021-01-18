@@ -6,6 +6,7 @@ import dtos.BookingDTO;
 import dtos.HotelDTO;
 import entities.Booking;
 import entities.Hotel;
+import entities.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeoutException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import rest.HotelResource;
 import utils.EMF_Creator;
 import utils.HttpUtils;
 
@@ -29,6 +31,7 @@ public class HotelFacade {
 
     private static EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
     private static HotelFacade instance;
+    private static HotelResource rest;
     private Gson GSON;
 
     public HotelFacade() {
@@ -43,7 +46,7 @@ public class HotelFacade {
         return instance;
     }
 
-    public String fetchHotelsTest(ExecutorService threadPool, Gson GSON) throws InterruptedException, ExecutionException, TimeoutException {
+    public static String fetchHotels(ExecutorService threadPool, Gson GSON) throws InterruptedException, ExecutionException, TimeoutException {
         String url = "http://exam.cphdat.dk:8000/hotel/all";
         Callable<HotelDTO[]> task = new Callable<HotelDTO[]>() {
             @Override
@@ -71,12 +74,30 @@ public class HotelFacade {
 //        String hotelData = HttpUtils.fetchData(url);
 //        return hotelData;
 //    }
+    
+    
 
-    public void addBooking(BookingDTO b) {
+    public BookingDTO addBooking(BookingDTO b, String hotelId) throws IOException {
         EntityManager em = emf.createEntityManager();
+        
+        String hotelDTO = rest.getHotelById(hotelId);
+        Hotel hotel = GSON.fromJson(hotelDTO, Hotel.class);
+        
+        Booking booking = new Booking(b.getName(), b.getNights(), b.getNightPrice(), b.getStartDate());
+        booking.setHotel(hotel);
+        
+        User user = em.find(User.class, b.getName());
+        user.addBooking(booking);
+        
+        try {
         em.getTransaction().begin();
+        em.merge(user);
         em.persist(new Booking(b.getStartDate(), b.getNights(), b.getNightPrice(), b.getName()));
         em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new BookingDTO(booking);
     }
 
     public ArrayList<BookingDTO> getAllBookings(String name) {

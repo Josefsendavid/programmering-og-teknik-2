@@ -1,9 +1,10 @@
 package utils;
 
 
+import entities.Booking;
+import entities.Hotel;
 import entities.Role;
 import entities.User;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -30,10 +31,15 @@ public class SetupTestUsers {
     em.getTransaction().begin();
     Role userRole = new Role("user");
     Role adminRole = new Role("admin");
+    Hotel hotel = new Hotel("HotelName", "Hotel", "Østerbro", "80", "88554488", "Hotel Contents");
+    Booking bookings = new Booking("24/3/2021", 3, 80, "David");
+    bookings.setHotelBooking(hotel);
     user.addRole(userRole);
     admin.addRole(adminRole);
     both.addRole(userRole);
     both.addRole(adminRole);
+    em.persist(bookings);
+    em.persist(hotel);
     em.persist(userRole);
     em.persist(adminRole);
     em.persist(user);
